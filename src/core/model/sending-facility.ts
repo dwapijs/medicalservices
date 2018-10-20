@@ -7,4 +7,10 @@ export class SendingFacility extends AggregateRoot {
     facilityCode: number;
     @Column()
     facilityName: string;
+
+    constructor(facilityCode: number, facilityName: string) {
+        super();
+        this.facilityCode = facilityCode;
+        this.facilityName = facilityName;
+    }
 }
