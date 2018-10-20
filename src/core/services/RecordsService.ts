@@ -3,7 +3,9 @@ import { SendingFacility } from "../model/sending-facility";
 import { PatientRecord } from "../model/patient-record";
 import { ISendingFacilityRepository } from "../interfaces/isending-facility-repository";
 import { IPatientRecordRepository } from "../interfaces/ipatient-record-repository";
+import { Service } from "typedi";
 
+@Service()
 export class RecordsService implements IRecordsService {
 
     facilityRepository: ISendingFacilityRepository;

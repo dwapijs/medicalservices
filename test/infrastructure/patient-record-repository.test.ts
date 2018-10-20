@@ -6,10 +6,14 @@ import { PatientRecord } from "../../src/core/model/patient-record";
 import { SendingFacility } from "../../src/core/model/sending-facility";
 import { PatientVisitRecord } from "../../src/core/model/patient-visit-record";
 import { SendingFacilityRepository } from "../../src/infrastructure/sending-facility-repository";
+import { IPatientRecordRepository } from "../../src/core/interfaces/ipatient-record-repository";
+import { ISendingFacilityRepository } from "../../src/core/interfaces/isending-facility-repository";
+import { Container } from "typedi";
 
 describe("Patient Record Repository", () => {
     const dbPath: string = "test/dwapitest.sqlite3";
-    let patientRepository: PatientRecordRepository;
+    let patientRepository: IPatientRecordRepository;
+    let facilityRepository: ISendingFacilityRepository;
 
     const facilities = [
         new SendingFacility(1, "FMH"),
@@ -56,6 +60,8 @@ describe("Patient Record Repository", () => {
             entities: ["./src/core/model/*.ts"],
             synchronize: true
         });
+        facilityRepository = Container.get(SendingFacilityRepository);
+
         await new SendingFacilityRepository(SendingFacility, connection).createBatch(facilities);
         patientRepository = new PatientRecordRepository(PatientRecord, connection);
         await patientRepository.createBatch(patients);
