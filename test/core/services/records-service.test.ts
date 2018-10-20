@@ -43,14 +43,14 @@ describe("Records Service", () => {
     });
     test("should enroll facility", async () => {
         await service.enrollFacility(facilities[0]);
-        const facility = facilityRepository.get(facilities[0].id);
+        const facility = await facilityRepository.get(facilities[0].id);
         expect(facility).not.toBeUndefined();
-        console.log(facility);
+        console.log(`${facility}`);
     });
-    test("should save Patient", async() => {
+    test("should save Patient", async () => {
         await service.savePatient(patients[0]);
-        const patient = patientRepository.get(patients[0].id);
+        const patient = await patientRepository.get(patients[0].id);
         expect(patient).not.toBeUndefined();
-        console.log(patient);
+        console.log(`${patient}`);
     });
 });

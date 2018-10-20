@@ -50,7 +50,7 @@ describe("Patient Record Repository", () => {
             }
         );
         const connection = await createConnection({
-            logging: true,
+            logging: false,
             type: "sqlite",
             database: dbPath,
             entities: ["./src/core/model/*.ts"],
