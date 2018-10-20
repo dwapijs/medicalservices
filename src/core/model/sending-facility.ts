@@ -13,4 +13,8 @@ export class SendingFacility extends AggregateRoot {
         this.facilityCode = facilityCode;
         this.facilityName = facilityName;
     }
+
+    toString(): string {
+        return `${this.facilityCode}-{this.facilityName}`;
+    }
 }
