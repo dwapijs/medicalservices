@@ -54,9 +54,9 @@ jspm_packages/
 
 # next.js build output
 .next
-
+dist
 .idea
 .vscode
 *.sqlite3
-
+.DS_Store
 
