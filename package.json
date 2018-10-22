@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "dwapi.js medicalservices",
   "scripts": {
+    "start": "nodemon --exec ts-node ./src/index.ts",
     "test": "jest --forceExit --coverage --verbose --detectOpenHandles",
     "watch-test": "npm run test -- --watchAll"
   },
@@ -20,7 +21,14 @@
   },
   "homepage": "https://github.com/dwapijs/medicalservices#readme",
   "dependencies": {
+    "@types/body-parser": "^1.17.0",
+    "@types/express": "^4.16.0",
+    "body-parser": "^1.18.3",
     "dwapijs-sharedkernel": "github:dwapijs/sharedkernel",
+    "express": "^4.16.4",
+    "koa": "^2.5.3",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
     "reflect-metadata": "^0.1.12",
@@ -31,6 +39,9 @@
   "devDependencies": {
     "@types/faker": "^4.1.4",
     "@types/jest": "^23.3.5",
+    "@types/koa": "^2.0.46",
+    "@types/koa-bodyparser": "^5.0.1",
+    "@types/koa-router": "^7.0.32",
     "@types/lodash": "^4.14.117",
     "@types/node": "^10.11.7",
     "@types/uuid": "^3.4.4",
