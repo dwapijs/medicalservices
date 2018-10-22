@@ -6,20 +6,33 @@ import { SendingFacilityRepository } from "../../../src/infrastructure/sending-f
 import { createConnection } from "typeorm";
 import * as fs from "fs";
 import { IRecordsService } from "../../../src/core/interfaces/irecords-service";
+import { PatientVisitRecord } from "../../../src/core/model/patient-visit-record";
+import { PatientDto } from "../../../src/core/dtos/patient-dto";
 
 describe("Records Service", () => {
 
-    const dbPath: string = "test/dwapitest.sqlite3";
+    const dbPath: string = "test/dwapitestA.sqlite3";
     let patientRepository: PatientRecordRepository;
     let facilityRepository: SendingFacilityRepository;
     let service: IRecordsService;
-    const facilities = [
-        new SendingFacility(1, "FMH")
-    ];
 
-    const patients = [
-        new PatientRecord("Mary Doe", "F", new Date(1999, 2, 3), facilities[0].facilityCode, "NHIF", "230")
-    ];
+    const patientDto: PatientDto = {
+        names: "Mary Doe",
+        sex: "F",
+        dob: new Date(1999, 2, 3),
+        facilityCode: 167,
+        facilityName: "KERO",
+        idType: "NHIF",
+        idNumber: "230",
+        visits: [
+            {
+                visitDate: new Date(2018, 2, 2),
+                obsName: "obs",
+                obsValue: "22"
+            }
+        ]
+    };
+
 
     beforeAll(async () => {
 
@@ -41,16 +54,12 @@ describe("Records Service", () => {
         facilityRepository = new SendingFacilityRepository(SendingFacility, connection);
         service = new RecordsService(facilityRepository, patientRepository);
     });
-    test("should enroll facility", async () => {
-        await service.enrollFacility(facilities[0]);
-        const facility = await facilityRepository.get(facilities[0].id);
-        expect(facility).not.toBeUndefined();
-        console.log(`${facility}`);
-    });
-    test("should save Patient", async () => {
-        await service.savePatient(patients[0]);
-        const patient = await patientRepository.get(patients[0].id);
+    test("should save Patient with Facility", async () => {
+        const savedPatient = await service.savePatient(patientDto);
+        const patient = await patientRepository.get(savedPatient.id);
+        const facility = await facilityRepository.getByCode(patient.facilityCode);
         expect(patient).not.toBeUndefined();
-        console.log(`${patient}`);
+        expect(facility).not.toBeUndefined();
+        console.log(`${facility} >> ${patient}`);
     });
 });

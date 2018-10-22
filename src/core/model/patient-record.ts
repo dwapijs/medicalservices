@@ -1,6 +1,7 @@
 import { AggregateRoot } from "../../../../sharedkernel/src";
 import { Column, Entity, OneToMany } from "typeorm";
 import { PatientVisitRecord } from "./patient-visit-record";
+import { PatientDto } from "../dtos/patient-dto";
 
 @Entity()
 export class PatientRecord extends AggregateRoot {
@@ -27,6 +28,13 @@ export class PatientRecord extends AggregateRoot {
         this.facilityCode = facilityCode;
         this.idType = idType;
         this.idNumber = idNumber;
+    }
+
+    static createFromDto(patientDto: PatientDto): PatientRecord {
+        return new PatientRecord(
+            patientDto.names, patientDto.sex, patientDto.dob,
+            patientDto.facilityCode, patientDto.idType, patientDto.idNumber
+        );
     }
 
     addVisit(visit: PatientVisitRecord) {

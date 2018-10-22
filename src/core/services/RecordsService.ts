@@ -4,6 +4,7 @@ import { PatientRecord } from "../model/patient-record";
 import { ISendingFacilityRepository } from "../interfaces/isending-facility-repository";
 import { IPatientRecordRepository } from "../interfaces/ipatient-record-repository";
 import { Service } from "typedi";
+import { PatientDto } from "../dtos/patient-dto";
 
 @Service()
 export class RecordsService implements IRecordsService {
@@ -16,11 +17,10 @@ export class RecordsService implements IRecordsService {
         this.patientRepository = patientRepository;
     }
 
-    enrollFacility(facility: SendingFacility): Promise<SendingFacility> {
-        return this.facilityRepository.create(facility);
-    }
-
-    savePatient(patient: PatientRecord): Promise<PatientRecord> {
+    async savePatient(patientDto: PatientDto): Promise<PatientRecord> {
+        const patient = PatientRecord.createFromDto(patientDto);
+        const facility = SendingFacility.createFromDto(patientDto);
+        await this.facilityRepository.createIfNotExisits(facility);
         return this.patientRepository.create(patient);
     }
 }

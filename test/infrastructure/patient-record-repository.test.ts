@@ -11,7 +11,7 @@ import { ISendingFacilityRepository } from "../../src/core/interfaces/isending-f
 import { Container } from "typedi";
 
 describe("Patient Record Repository", () => {
-    const dbPath: string = "test/dwapitest.sqlite3";
+    const dbPath: string = "test/dwapitestB.sqlite3";
     let patientRepository: IPatientRecordRepository;
     let facilityRepository: ISendingFacilityRepository;
 
@@ -71,6 +71,6 @@ describe("Patient Record Repository", () => {
         const patientRecord = await patientRepository.get(patients[0].id);
         expect(patientRecord.visits.length > 0);
         console.log(`${patientRecord}`);
-        patientRecord.visits.forEach((f) => console.log(`> ${f}`));
+        patientRecord.visits.forEach((f: PatientVisitRecord) => console.log(`> ${f}`));
     });
 });
