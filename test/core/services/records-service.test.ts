@@ -6,7 +6,6 @@ import { SendingFacilityRepository } from "../../../src/infrastructure/sending-f
 import { createConnection } from "typeorm";
 import * as fs from "fs";
 import { IRecordsService } from "../../../src/core/interfaces/irecords-service";
-import { PatientVisitRecord } from "../../../src/core/model/patient-visit-record";
 import { PatientDto } from "../../../src/core/dtos/patient-dto";
 
 describe("Records Service", () => {
@@ -32,7 +31,6 @@ describe("Records Service", () => {
             }
         ]
     };
-
 
     beforeAll(async () => {
 
@@ -61,5 +59,15 @@ describe("Records Service", () => {
         expect(patient).not.toBeUndefined();
         expect(facility).not.toBeUndefined();
         console.log(`${facility} >> ${patient}`);
+    });
+
+    afterAll(async () => {
+        fs.unlink(dbPath, (err) => {
+                if (err) {
+                    console.log(err);
+                }
+                console.log("db deleted !");
+            }
+        );
     });
 });
