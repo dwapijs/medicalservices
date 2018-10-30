@@ -3,9 +3,12 @@ import { ISendingFacilityRepository } from "../core/interfaces/isending-facility
 import { SendingFacility } from "../core/model/sending-facility";
 import { Service } from "typedi";
 
+
 @Service()
 export class SendingFacilityRepository extends RepositoryBase<SendingFacility> implements ISendingFacilityRepository {
+
     async createIfNotExisits(facility: SendingFacility): Promise<SendingFacility> {
+        console.log(facility);
         const exisiting = await this.getByCode(facility.facilityCode);
         if (exisiting) {
             return exisiting;

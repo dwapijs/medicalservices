@@ -1,18 +1,18 @@
 import { IRecordsService } from "../interfaces/irecords-service";
 import { SendingFacility } from "../model/sending-facility";
 import { PatientRecord } from "../model/patient-record";
-import { ISendingFacilityRepository } from "../interfaces/isending-facility-repository";
-import { IPatientRecordRepository } from "../interfaces/ipatient-record-repository";
-import { Service } from "typedi";
+import { Inject, Service } from "typedi";
 import { PatientDto } from "../dtos/patient-dto";
+import { PatientRecordRepository } from "../../infrastructure/patient-record-repository";
+import { SendingFacilityRepository } from "../../infrastructure/sending-facility-repository";
 
 @Service()
 export class RecordsService implements IRecordsService {
 
-    facilityRepository: ISendingFacilityRepository;
-    patientRepository: IPatientRecordRepository;
+    facilityRepository: SendingFacilityRepository;
+    patientRepository: PatientRecordRepository;
 
-    constructor(faciltyRepository: ISendingFacilityRepository, patientRepository: IPatientRecordRepository) {
+    constructor(faciltyRepository: SendingFacilityRepository, patientRepository: PatientRecordRepository) {
         this.facilityRepository = faciltyRepository;
         this.patientRepository = patientRepository;
     }
