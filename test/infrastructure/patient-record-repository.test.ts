@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { createConnection } from "typeorm";
+import { createConnection, useContainer } from "typeorm";
 import * as fs from "fs";
 import { PatientRecordRepository } from "../../src/infrastructure/patient-record-repository";
 import { PatientRecord } from "../../src/core/model/patient-record";
@@ -53,6 +53,7 @@ describe("Patient Record Repository", () => {
                 console.log("db deleted !");
             }
         );
+        useContainer(Container);
         const connection = await createConnection({
             logging: false,
             type: "sqlite",
@@ -72,5 +73,15 @@ describe("Patient Record Repository", () => {
         expect(patientRecord.visits.length > 0);
         console.log(`${patientRecord}`);
         patientRecord.visits.forEach((f: PatientVisitRecord) => console.log(`> ${f}`));
+    });
+
+    afterAll(async () => {
+        fs.unlink(dbPath, (err) => {
+                if (err) {
+                    console.log(err);
+                }
+                console.log("db deleted !");
+            }
+        );
     });
 });

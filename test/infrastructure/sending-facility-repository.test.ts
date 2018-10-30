@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { createConnection } from "typeorm";
+import { createConnection, useContainer } from "typeorm";
 import * as fs from "fs";
 import { PatientRecordRepository } from "../../src/infrastructure/patient-record-repository";
 import { PatientRecord } from "../../src/core/model/patient-record";
@@ -27,6 +27,7 @@ describe("Sending Facility Repository", () => {
                 console.log("db deleted !");
             }
         );
+        useContainer(Container);
         const connection = await createConnection({
             logging: false,
             type: "sqlite",
@@ -34,7 +35,7 @@ describe("Sending Facility Repository", () => {
             entities: ["./src/core/model/*.ts"],
             synchronize: true
         });
-        facilityRepository = new SendingFacilityRepository(SendingFacility, connection);
+        facilityRepository = Container.get(SendingFacilityRepository);
         await facilityRepository.create(facilities[0]);
     });
 
@@ -50,5 +51,15 @@ describe("Sending Facility Repository", () => {
         expect(newFacility).not.toBeUndefined();
         expect(newFacility.facilityCode === 2);
         console.log(newFacility);
+    });
+
+    afterAll(async () => {
+        fs.unlink(dbPath, (err) => {
+                if (err) {
+                    console.log(err);
+                }
+                console.log("db deleted !");
+            }
+        );
     });
 });

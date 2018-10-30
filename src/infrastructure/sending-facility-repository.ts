@@ -2,10 +2,16 @@ import { RepositoryBase } from "../../../sharedkernel/src";
 import { ISendingFacilityRepository } from "../core/interfaces/isending-facility-repository";
 import { SendingFacility } from "../core/model/sending-facility";
 import { Service } from "typedi";
+import { InjectConnection } from "typeorm-typedi-extensions";
+import { Connection } from "typeorm";
 
 
 @Service()
 export class SendingFacilityRepository extends RepositoryBase<SendingFacility> implements ISendingFacilityRepository {
+
+    constructor(@InjectConnection() connection: Connection) {
+        super(SendingFacility, connection);
+    }
 
     async createIfNotExisits(facility: SendingFacility): Promise<SendingFacility> {
         console.log(facility);
